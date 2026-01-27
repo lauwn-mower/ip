@@ -12,7 +12,7 @@ public class AuntieGreeting {
                 + "  / ____ \\ |_| | | | | |_| |  __/\n"
                 + " /_/    \\_\\____|_| |_|\\__|_|\\___|\n";
 
-        System.out.println("Hallo! You can call me:");
+        System.out.println("Hallo! Can call me:");
         System.out.println(logo);
 
         System.out.println("Your life so rabak, Auntie help you keep track ok.");
@@ -21,14 +21,17 @@ public class AuntieGreeting {
 
     // This method personalises how the Chatbot will address the user, in line with the Chatbot's personality
     public static void setUserNickname(){
+        // Prompt user to select their gender
         System.out.println("Actually, you what gender ah?");
         System.out.println("  > Enter your gender: (Male) / (Female)");
 
+        // Scan in user input
         Scanner input = new Scanner(System.in);
         String user_gender;
         user_gender = input.nextLine().toUpperCase();
         String user_nickname;
 
+        // Based on option chosen by user, Chatbot will address user accordingly
         if (user_gender.equals("MALE")){
             user_nickname = "Ah Boy";
         } else if (user_gender.equals("FEMALE")) {
