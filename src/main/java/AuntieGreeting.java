@@ -45,7 +45,6 @@ public class AuntieGreeting {
     }
 
     public static void main(String[] args){
-
         greetUser();
         setUserNickname();
 
