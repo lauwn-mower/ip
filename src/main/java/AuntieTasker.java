@@ -1,7 +1,6 @@
 // This class is a task manager to manage the Task class and its subclasses
 
 import java.util.Scanner;
-
 import static java.lang.Integer.parseInt;
 
 /* Class Usage details
@@ -34,27 +33,24 @@ public class AuntieTasker {
         System.out.println("U finally done ah? Ok stop bothering me, shooshoo.");
     }
 
-    // This method takes the userInput as a new task and adds to taskList[]
-    public static void addList(String newTask){
-        taskList[taskCount] = new Task(newTask);
-        taskCount += 1;
-        System.out.println("Ok, added liao");
+    public static void addedTaskConfirmation(int taskNum){
+        System.out.println("Ok, added liao:");
+        System.out.println(taskList[taskNum].toStringListFormat());
     }
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
     public static void printList(){
         System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
         for (int i = 0; i < taskCount; i += 1){
-            System.out.println( (i+1) + ". " + taskList[i].toStringTaskStatus() + taskList[i].description);
+            System.out.println( (i+1) + ". " + taskList[i].toStringListFormat());
         }
     }
 
 
     // This method identifies what to do based on userInput
-    public static void decodeCommand(){
-        Scanner newLine = new Scanner(System.in);
+    public static void decodeCommand(String userInput){
 
-        String userInput = newLine.nextLine();
+        // First analyse the firstWord to check if list/bye or Task+details
         String[] splitInput = userInput.split(" ", 2);
         String firstWord = splitInput[0];
 
@@ -78,7 +74,7 @@ public class AuntieTasker {
             int taskNumber = parseInt(splitInput[1]) - 1; // Array starts at 0 but user reads from 1
             taskList[taskNumber].setDone(true);
             System.out.println("Wah u finally stopped lazing around. Good good");
-            System.out.println(taskList[taskNumber].toStringTaskStatus() + taskList[taskNumber].description);
+            System.out.println(taskList[taskNumber].toStringTaskIcons() + taskList[taskNumber].description);
             break;
         }
 
@@ -87,13 +83,56 @@ public class AuntieTasker {
             int taskNumber = parseInt(splitInput[1]) - 1; // Array starts at 0 but user reads from 1
             taskList[taskNumber].setDone(false);
             System.out.println("U lie to me issit? Want cheat horrr. U better watch out");
-            System.out.println(taskList[taskNumber].toStringTaskStatus() + taskList[taskNumber].description);
+            System.out.println(taskList[taskNumber].toStringTaskIcons() + taskList[taskNumber].description);
             break;
         }
 
-        // If not a command, take it as a task
+        /*
+         * Tasks classified into Todo, Deadline, Event
+         * If new task added: Construct and add to taskList by type
+         * Confirm with user that the task has been added
+         * Increment taskCount
+         */
+        case "todo": {
+
+            // Add new task to taskList
+            String taskDesc = splitInput[1];
+            taskList[taskCount] = new Todo(taskDesc);
+            addedTaskConfirmation(taskCount);
+            taskCount += 1;
+            break;
+        }
+
+        case "deadline": {
+            // Split userInput line by its description and deadline, then construct Deadline
+            String[] splitComponents = splitInput[1].split("/", 2);
+            String taskDesc = splitComponents[0];
+            String dateBy = splitComponents[1];
+
+            // Add new task to taskList
+            taskList[taskCount] = new Deadline(taskDesc, dateBy);
+            addedTaskConfirmation(taskCount);
+            taskCount += 1;
+            break;
+        }
+
+        case "event": {
+            // Split userInput line by its description and deadline, then construct Deadline
+            String[] splitComponents = splitInput[1].split("/", 3);
+            String taskDesc = splitComponents[0];
+            String dateFrom = splitComponents[1];
+            String dateTo = splitComponents[2];
+
+            // Add task to taskList
+            taskList[taskCount] = new Event(taskDesc, dateFrom, dateTo);
+            addedTaskConfirmation(taskCount);
+            taskCount += 1;
+            break;
+        }
+
+        // If not a command, clarify
         default: {
-            addList(userInput);
+            System.out.println("I dun understand you. Follow format pls.");
             break;
         }
         }
@@ -106,8 +145,10 @@ public class AuntieTasker {
 
         System.out.println("\nQuick, what you want do?");
 
+        Scanner newLine = new Scanner(System.in);
         while (!exitProgram){
-            decodeCommand();
+            String userInput = newLine.nextLine();
+            decodeCommand(userInput);
         }
     }
 }
