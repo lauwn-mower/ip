@@ -11,14 +11,25 @@ import static java.lang.Integer.parseInt;
 
 public class AuntieTasker {
 
+    // Constants
+    public static final int SIZE_OF_TASKLIST = 100;
+    // Constant inputs
+    public static final String CMD_LIST = "list";
+    public static final String CMD_EXIT = "bye";
+    public static final String CMD_MARK = "mark";
+    public static final String CMD_UNMARK = "unmark";
+    public static final String CMD_TODO = "todo";
+    public static final String CMD_DEADLINE = "deadline";
+    public static final String CMD_EVENT = "event";
+
     // Task Class members to track all tasks
-    public static final int sizeOfTaskList = 100;
-    public static Task[] taskList = new Task[sizeOfTaskList];
-    public static int taskCount = 0;
+    private static Task[] taskList = new Task[SIZE_OF_TASKLIST];
+    private static int taskCount = 0;
 
     // Flag to exit program
     public static boolean exitProgram = false;
 
+    /* Level-1 Task
     // This method scans for user inputs and echoes back
     public static void echo(){
         String userInput;
@@ -32,6 +43,7 @@ public class AuntieTasker {
         }
         System.out.println("U finally done ah? Ok stop bothering me, shooshoo.");
     }
+    */
 
     public static void addedTaskConfirmation(int taskNum){
         System.out.println("Ok, added liao:");
@@ -40,6 +52,12 @@ public class AuntieTasker {
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
     public static void printList(){
+
+        if (taskCount == 0) {
+            System.out.println("You very free hor. Nothing to do");
+            return;
+        }
+
         System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
         for (int i = 0; i < taskCount; i += 1){
             System.out.println( (i+1) + ". " + taskList[i].toStringListFormat());
@@ -53,24 +71,24 @@ public class AuntieTasker {
         // First analyse the firstWord to check if list/bye or Task+details
         String[] splitInput = userInput.split(" ", 2);
         String firstWord = splitInput[0];
+        String taskDesc = (splitInput.length > 1) ? splitInput[1] : "";
 
         switch (firstWord) {
-
         // Print list of tasks
-        case "list": {
+        case CMD_LIST: {
             printList();
             break;
         }
 
         // Exit program
-        case "bye": {
+        case CMD_EXIT: {
             System.out.println("U finally done ah? Ok stop bothering me now. Shooshoo.");
             exitProgram = true;
             break;
         }
 
         // Set specified task to isDone=true
-        case "mark": {
+        case CMD_MARK: {
             int taskNumber = parseInt(splitInput[1]) - 1; // Array starts at 0 but user reads from 1
             taskList[taskNumber].setDone(true);
             System.out.println("Wah u finally stopped lazing around. Good good");
@@ -79,8 +97,8 @@ public class AuntieTasker {
         }
 
         // Set specified task to isDone=false
-        case "unmark": {
-            int taskNumber = parseInt(splitInput[1]) - 1; // Array starts at 0 but user reads from 1
+        case CMD_UNMARK: {
+            int taskNumber = parseInt(taskDesc) - 1; // Array starts at 0 but user reads from 1
             taskList[taskNumber].setDone(false);
             System.out.println("U lie to me issit? Want cheat horrr. U better watch out");
             System.out.println(taskList[taskNumber].toStringTaskIcons() + taskList[taskNumber].description);
@@ -89,44 +107,23 @@ public class AuntieTasker {
 
         /*
          * Tasks classified into Todo, Deadline, Event
-         * If new task added: Construct and add to taskList by type
-         * Confirm with user that the task has been added
-         * Increment taskCount
+         * Handled by respective handle<Task>() methods:
+         *     If new task added: Construct and add to taskList by type
+         *     Confirm with user that the task has been added
+         *     Increment taskCount
          */
-        case "todo": {
-
-            // Add new task to taskList
-            String taskDesc = splitInput[1];
-            taskList[taskCount] = new Todo(taskDesc);
-            addedTaskConfirmation(taskCount);
-            taskCount += 1;
+        case CMD_TODO: {
+            handleTodo(splitInput, taskDesc);
             break;
         }
 
-        case "deadline": {
-            // Split userInput line by its description and deadline, then construct Deadline
-            String[] splitComponents = splitInput[1].split("/", 2);
-            String taskDesc = splitComponents[0];
-            String dateBy = splitComponents[1];
-
-            // Add new task to taskList
-            taskList[taskCount] = new Deadline(taskDesc, dateBy);
-            addedTaskConfirmation(taskCount);
-            taskCount += 1;
+        case CMD_DEADLINE: {
+            handleDeadline(taskDesc);
             break;
         }
 
-        case "event": {
-            // Split userInput line by its description and deadline, then construct Deadline
-            String[] splitComponents = splitInput[1].split("/", 3);
-            String taskDesc = splitComponents[0];
-            String dateFrom = splitComponents[1];
-            String dateTo = splitComponents[2];
-
-            // Add task to taskList
-            taskList[taskCount] = new Event(taskDesc, dateFrom, dateTo);
-            addedTaskConfirmation(taskCount);
-            taskCount += 1;
+        case CMD_EVENT: {
+            handleEvent(taskDesc);
             break;
         }
 
@@ -138,6 +135,45 @@ public class AuntieTasker {
         }
     }
 
+    private static void handleEvent(String taskDesc) {
+        // Split userInput line by its description and deadline, then construct Deadline
+        String[] splitComponents = taskDesc.split("/", 3);
+        String eventName = splitComponents[0];
+        String eventDateFrom = splitComponents[1];
+        String eventDateTo = splitComponents[2];
+
+        // Add task to taskList
+        taskList[taskCount] = new Event(eventName, eventDateFrom, eventDateTo);
+        addedTaskConfirmation(taskCount);
+        taskCount += 1;
+    }
+
+    // handleTask() methods
+    private static void handleDeadline(String taskDesc) {
+        // Split userInput line by its description and deadline, then construct Deadline
+        String[] splitComponents = taskDesc.split("/", 2);
+        String deadlineName = splitComponents[0];
+        String deadlineBy = splitComponents[1];
+
+        // Add new task to taskList
+        taskList[taskCount] = new Deadline(deadlineName, deadlineBy);
+        addedTaskConfirmation(taskCount);
+        taskCount += 1;
+    }
+
+    private static void handleTodo(String[] splitInput, String taskDesc) {
+        // User might enter "todo" without a task -> program crash
+        if (splitInput.length < 2){
+            throw new IndexOutOfBoundsException();
+        }
+
+        // Add new task to taskList
+//            String taskDesc = splitInput[1];
+        taskList[taskCount] = new Todo(taskDesc);
+        addedTaskConfirmation(taskCount);
+        taskCount += 1;
+    }
+
 
     public static void main(String[] args){
         AuntieGreeting.greetUser();
@@ -145,9 +181,9 @@ public class AuntieTasker {
 
         System.out.println("\nQuick, what you want do?");
 
-        Scanner newLine = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         while (!exitProgram){
-            String userInput = newLine.nextLine();
+            String userInput = in.nextLine();
             decodeCommand(userInput);
         }
     }
