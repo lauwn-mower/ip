@@ -66,7 +66,7 @@ public class AuntieTasker {
 
 
     // This method identifies what to do based on userInput
-    public static void decodeCommand(String userInput){
+    public static void decodeCommand(String userInput) {
 
         // First analyse the firstWord to check if list/bye or Task+details
         String[] splitInput = userInput.split(" ", 2);
@@ -135,9 +135,12 @@ public class AuntieTasker {
             }
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Huh? Wat you waaaant. Can specify onot");
+            System.out.println("Huh? Wat you waaaant. Can specify onot?");
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Aiya formatting wrong lah. Do again" );
+        } catch (AuntieException e){
+            // Catch when there's an empty taskDesc after the command, handled in handleTodo()
+            System.out.println(e.getMessage());
         }
     }
 
@@ -167,14 +170,17 @@ public class AuntieTasker {
         taskCount += 1;
     }
 
-    private static void handleTodo(String[] splitInput, String taskDesc) {
+    private static void handleTodo(String[] splitInput, String taskDesc) throws AuntieException {
         // User might enter "todo" without a task -> program crash
         if (splitInput.length < 2){
             throw new IndexOutOfBoundsException();
         }
 
+        if (taskDesc.trim().isEmpty()){
+            throw new AuntieException("U blind issit. Got nothing in this todo");
+        }
+
         // Add new task to taskList
-//            String taskDesc = splitInput[1];
         taskList[taskCount] = new Todo(taskDesc);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
