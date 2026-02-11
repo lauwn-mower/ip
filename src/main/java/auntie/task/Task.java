@@ -1,3 +1,5 @@
+package auntie.task;
+
 public class Task {
 
     // Task object comprises its description and isDone status

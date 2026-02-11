@@ -1,3 +1,5 @@
+package auntie.startup;
+
 import java.util.Scanner;
 
 public class AuntieGreeting {

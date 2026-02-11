@@ -1,4 +1,4 @@
-// This class is a task manager to manage the Task class and its subclasses
+package auntie.task;// This class is a task manager to manage the Task class and its subclasses
 
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
@@ -188,8 +188,8 @@ public class AuntieTasker {
 
 
     public static void main(String[] args){
-        AuntieGreeting.greetUser();
-        AuntieGreeting.setUserNickname();
+        auntie.startup.AuntieGreeting.greetUser();
+        auntie.startup.AuntieGreeting.setUserNickname();
 
         System.out.println("\nQuick, what you want do?");
 
