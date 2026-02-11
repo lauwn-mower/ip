@@ -27,21 +27,20 @@ public class AuntieGreeting {
 
         // Scan in user input
         Scanner input = new Scanner(System.in);
-        String user_gender;
-        user_gender = input.nextLine().toUpperCase();
-        String user_nickname;
+        String userGender = input.nextLine().toUpperCase();
+        String userNickname;
 
         // Based on option chosen by user, Chatbot will address user accordingly
-        if (user_gender.equals("MALE")){
-            user_nickname = "Ah Boy";
-        } else if (user_gender.equals("FEMALE")) {
-            user_nickname = "Ah Girl";
+        if (userGender.equals("MALE")){
+            userNickname = "Ah Boy";
+        } else if (userGender.equals("FEMALE")) {
+            userNickname = "Ah Girl";
         } else {
-            user_nickname = "Ah Boy";
+            userNickname = "Ah Boy";
             System.out.println("Aiyo you type wrong issit. Nevermind ah I just call you Ah Boy.");
         }
 
-        System.out.println("Ok! I call you " + user_nickname + " hor.");
+        System.out.println("Ok! I call you " + userNickname + " hor.");
     }
 
     public static void main(String[] args){
