@@ -1,5 +1,6 @@
 package auntie.task;// This class is a task manager to manage the Task class and its subclasses
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 
@@ -23,7 +24,7 @@ public class AuntieTasker {
     public static final String CMD_EVENT = "event";
 
     // Task Class members to track all tasks
-    private static Task[] taskList = new Task[SIZE_OF_TASKLIST];
+    private static ArrayList<Task> taskList = new ArrayList<>();
     private static int taskCount = 0;
 
     // Flag to exit program
@@ -45,9 +46,9 @@ public class AuntieTasker {
     }
     */
 
-    public static void addedTaskConfirmation(int taskNum){
+    public static void addedTaskConfirmation(int taskNumber){
         System.out.println("Ok, added liao:");
-        System.out.println(taskList[taskNum].toStringListFormat());
+        System.out.println(taskList.get(taskNumber).toStringListFormat());
     }
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
@@ -60,7 +61,7 @@ public class AuntieTasker {
 
         System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
         for (int i = 0; i < taskCount; i += 1){
-            System.out.println( (i+1) + ". " + taskList[i].toStringListFormat());
+            System.out.println( (i+1) + ". " + taskList.get(i).toStringListFormat());
         }
     }
 
@@ -91,18 +92,18 @@ public class AuntieTasker {
             // Set specified task to isDone=true
             case CMD_MARK: {
                 int taskNumber = parseInt(splitInput[1]) - 1; // Array starts at 0 but user reads from 1
-                taskList[taskNumber].setDone(true);
+                taskList.get(taskNumber).setDone(true);
                 System.out.println("Wah u finally stopped lazing around. Good good");
-                System.out.println(taskList[taskNumber].toStringTaskIcons() + taskList[taskNumber].description);
+                System.out.println(taskList.get(taskNumber).toStringTaskIcons() + taskList.get(taskNumber).description);
                 break;
             }
 
             // Set specified task to isDone=false
             case CMD_UNMARK: {
                 int taskNumber = parseInt(taskDesc) - 1; // Array starts at 0 but user reads from 1
-                taskList[taskNumber].setDone(false);
+                taskList.get(taskNumber).setDone(false);
                 System.out.println("U lie to me issit? Want cheat horrr. U better watch out");
-                System.out.println(taskList[taskNumber].toStringTaskIcons() + taskList[taskNumber].description);
+                System.out.println(taskList.get(taskNumber).toStringTaskIcons() + taskList.get(taskNumber).description);
                 break;
             }
 
@@ -152,7 +153,8 @@ public class AuntieTasker {
         String eventDateTo = splitComponents[2];
 
         // Add task to taskList
-        taskList[taskCount] = new Event(eventName, eventDateFrom, eventDateTo);
+        Event newEvent = new Event(eventName, eventDateFrom, eventDateTo);
+        taskList.add(taskCount, newEvent);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
     }
@@ -165,7 +167,8 @@ public class AuntieTasker {
         String deadlineBy = splitComponents[1];
 
         // Add new task to taskList
-        taskList[taskCount] = new Deadline(deadlineName, deadlineBy);
+        Deadline newDeadline = new Deadline(deadlineName, deadlineBy);
+        taskList.add(taskCount, newDeadline);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
     }
@@ -181,7 +184,8 @@ public class AuntieTasker {
         }
 
         // Add new task to taskList
-        taskList[taskCount] = new Todo(taskDesc);
+        Todo newTodo = new Todo(taskDesc);
+        taskList.add(taskCount, newTodo);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
     }
