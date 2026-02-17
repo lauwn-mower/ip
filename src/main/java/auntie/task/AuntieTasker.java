@@ -25,7 +25,7 @@ public class AuntieTasker {
     public static final String CMD_DELETE = "delete";
 
     // Task Class members to track all tasks
-    private static ArrayList<Task> taskList = new ArrayList<>();
+    public static ArrayList<Task> taskList = new ArrayList<>();
     private static int taskCount = 0;
 
     // Flag to exit program
