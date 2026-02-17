@@ -133,17 +133,17 @@ public class AuntieTasker {
              *     Increment taskCount
              */
             case CMD_TODO: {
-                handleTodo(splitInput, taskDesc);
+                addTodo(splitInput, taskDesc);
                 break;
             }
 
             case CMD_DEADLINE: {
-                handleDeadline(taskDesc);
+                addDeadline(taskDesc);
                 break;
             }
 
             case CMD_EVENT: {
-                handleEvent(taskDesc);
+                addEvent(taskDesc);
                 break;
             }
 
@@ -163,7 +163,7 @@ public class AuntieTasker {
         }
     }
 
-    private static void handleEvent(String taskDesc) {
+    private static void addEvent(String taskDesc) {
         // Split userInput line by its description and deadline, then construct Deadline
         String[] splitComponents = taskDesc.split("/", 3);
         String eventName = splitComponents[0];
@@ -178,7 +178,7 @@ public class AuntieTasker {
     }
 
     // handleTask() methods
-    private static void handleDeadline(String taskDesc) {
+    private static void addDeadline(String taskDesc) {
         // Split userInput line by its description and deadline, then construct Deadline
         String[] splitComponents = taskDesc.split("/", 2);
         String deadlineName = splitComponents[0];
@@ -191,7 +191,7 @@ public class AuntieTasker {
         taskCount += 1;
     }
 
-    private static void handleTodo(String[] splitInput, String taskDesc) throws AuntieException {
+    private static void addTodo(String[] splitInput, String taskDesc) throws AuntieException {
         // User might enter "todo" without a task -> program crash
         if (splitInput.length < 2){
             throw new IndexOutOfBoundsException();
