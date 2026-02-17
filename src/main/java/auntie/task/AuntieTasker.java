@@ -212,8 +212,18 @@ public class AuntieTasker {
 
 
     public static void main(String[] args){
+        /* Procedures
+         * 1. Bot greets user
+         * 2. Bot ascertains if user is new or existing (local file exists)
+         * 3. Load / Create taskList
+         * 4. Start task managing proper
+         * 5. Save file before exiting program
+         */
         auntie.startup.AuntieGreeting.greetUser();
         auntie.startup.AuntieGreeting.setUserNickname();
+
+        auntie.startup.AuntieRetrieveFile();
+        // TODO: account for first-time vs local user
 
         System.out.println("\nQuick, what you want do?");
 
