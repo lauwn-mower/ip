@@ -54,11 +54,11 @@ public class AuntieTasker {
         System.out.println("Now u got " + (taskCount + 1) + " things to do hor.");
     }
 
-    public static void removedTaskConfirmation(int taskNumber){
+    public static void removedTaskConfirmation(String removedTask){
         System.out.println("Ok, removed liao:");
-        System.out.println(taskList.get(taskNumber).toStringListFormat());
-
-        System.out.println("Now u got " + (taskCount + 1) + "more things to do hor.");
+        System.out.println(removedTask);
+        System.out.println("\nNow u got " + (taskCount + 1) + " more things to do hor.");
+        printList();
     }
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
@@ -119,10 +119,12 @@ public class AuntieTasker {
 
             case CMD_DELETE: {
                 int taskNumber = parseInt(taskDesc) - 1; // Array starts at 0 but user reads from 1
+                String removedTask = taskList.get(taskNumber).toStringListFormat();
                 taskList.remove(taskNumber);
                 taskCount -= 1;
 
-                removedTaskConfirmation(taskNumber);
+                removedTaskConfirmation(removedTask);
+                break;
             }
 
             /*
