@@ -22,6 +22,7 @@ public class AuntieTasker {
     public static final String CMD_TODO = "todo";
     public static final String CMD_DEADLINE = "deadline";
     public static final String CMD_EVENT = "event";
+    public static final String CMD_DELETE = "delete";
 
     // Task Class members to track all tasks
     private static ArrayList<Task> taskList = new ArrayList<>();
@@ -49,6 +50,15 @@ public class AuntieTasker {
     public static void addedTaskConfirmation(int taskNumber){
         System.out.println("Ok, added liao:");
         System.out.println(taskList.get(taskNumber).toStringListFormat());
+
+        System.out.println("Now u got " + (taskCount + 1) + " things to do hor.");
+    }
+
+    public static void removedTaskConfirmation(int taskNumber){
+        System.out.println("Ok, removed liao:");
+        System.out.println(taskList.get(taskNumber).toStringListFormat());
+
+        System.out.println("Now u got " + (taskCount + 1) + "more things to do hor.");
     }
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
@@ -105,6 +115,14 @@ public class AuntieTasker {
                 System.out.println("U lie to me issit? Want cheat horrr. U better watch out");
                 System.out.println(taskList.get(taskNumber).toStringTaskIcons() + taskList.get(taskNumber).description);
                 break;
+            }
+
+            case CMD_DELETE: {
+                int taskNumber = parseInt(taskDesc) - 1; // Array starts at 0 but user reads from 1
+                taskList.remove(taskNumber);
+                taskCount -= 1;
+
+                removedTaskConfirmation(taskNumber);
             }
 
             /*
