@@ -27,28 +27,12 @@ public class AuntieTasker {
     // Flag to exit program
     public static boolean exitProgram = false;
 
-    /* Level-1 Task
-    // This method scans for user inputs and echoes back
-    public static void echo(){
-        String userInput;
-        Scanner input = new Scanner(System.in);
-        userInput = input.nextLine();
-
-        while (!userInput.equals("bye")){
-            // Bot continues to take in inputs and echo if input!="bye"
-            System.out.println(userInput);
-            userInput = input.nextLine();
-        }
-        System.out.println("U finally done ah? Ok stop bothering me, shooshoo.");
-    }
-    */
-
     /*
      * Section of methods dealing with bot responses when adding, deleting or viewing tasks
      */
-    public static void addedTaskConfirmation(int taskNumber){
+    public static void addedTaskConfirmation(int taskIndex){
         System.out.println("Ok, added liao:");
-        System.out.println(taskList.get(taskNumber).toStringListFormat());
+        System.out.println(taskList.get(taskIndex).toStringListFormat());
 
         System.out.println("Now u got " + (taskCount + 1) + " things to do hor.");
     }
@@ -140,17 +124,20 @@ public class AuntieTasker {
              *     Increment taskCount
              */
             case CMD_TODO: {
-                addTodo(taskDesc, taskList);
+                addTodo(taskDesc);
+                saveFile();
                 break;
             }
 
             case CMD_DEADLINE: {
-                addDeadline(taskDesc, taskList);
+                addDeadline(taskDesc);
+                saveFile();
                 break;
             }
 
             case CMD_EVENT: {
-                addEvent(taskDesc, taskList);
+                addEvent(taskDesc);
+                saveFile();
                 break;
             }
 
@@ -164,12 +151,10 @@ public class AuntieTasker {
             System.out.println("Huh? Wat you waaaant. Can specify onot?");
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Aiya formatting wrong lah. Do again");
-        } catch (AuntieException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    private static void addEvent(String taskDesc, ArrayList<Task> taskArrayList) {
+    public static void addEvent(String taskDesc) {
         // Split userInput line by its description and event date, then construct Event
         String[] splitComponents = taskDesc.split("/", 3);
         String eventName = splitComponents[0];
@@ -177,37 +162,36 @@ public class AuntieTasker {
         String eventDateTo = splitComponents[2];
 
         // Add task to taskList
-        Event newEvent = new Event(eventName, eventDateFrom, eventDateTo);
-        taskArrayList.add(taskCount, newEvent);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
+        taskList.add(new Event(eventName, eventDateFrom, eventDateTo));
     }
 
-    // handleTask() methods
-    private static void addDeadline(String taskDesc, ArrayList<Task> taskArrayList) throws AuntieException {
+    /*
+     * add<Task> methods classified by Task subclass
+     */
+    public static void addDeadline(String taskDesc) {
         // Split userInput line by its description and deadline, then construct Deadline
         String[] splitComponents = taskDesc.split("/", 2);
         String deadlineName = splitComponents[0];
         String deadlineBy = splitComponents[1];
 
         // Add new task to taskList
-        Deadline newDeadline = new Deadline(deadlineName, deadlineBy);
-        taskArrayList.add(taskCount, newDeadline);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
+        taskList.add(new Deadline(deadlineName, deadlineBy));
     }
 
-    public static void addTodo(String taskDesc, ArrayList<Task> taskArrayList) {
+    public static void addTodo(String taskDesc) {
         // Error handling: User might enter "todo" without a task -> program crash
         if (taskDesc.isEmpty()){
             throw new IndexOutOfBoundsException();
         }
 
         // Add new task to taskList
-        Todo newTodo = new Todo(taskDesc);
-        taskArrayList.add(taskCount, newTodo);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
+        taskList.add(new Todo(taskDesc));
     }
 
 
