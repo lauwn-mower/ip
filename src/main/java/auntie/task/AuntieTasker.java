@@ -22,7 +22,6 @@ public class AuntieTasker {
 
     // Task Class members to track all tasks
     public static ArrayList<Task> taskList = new ArrayList<>();
-    private static int taskCount = 0;
 
     // Flag to exit program
     public static boolean exitProgram = false;
@@ -34,29 +33,34 @@ public class AuntieTasker {
         System.out.println("Ok, added liao:");
         System.out.println(taskList.get(taskIndex).toStringListFormat());
 
-        System.out.println("Now u got " + (taskCount + 1) + " things to do hor.");
+        System.out.println("Now u got " + taskList.size() + " things to do hor.");
     }
 
     public static void removedTaskConfirmation(String removedTask){
         System.out.println("Ok, removed liao:");
         System.out.println(removedTask);
-        System.out.println("\nNow u got " + (taskCount + 1) + " more things to do hor.");
+        System.out.println("\nNow u got " + taskList.size() + " more things to do hor.");
         printList();
     }
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
     public static void printList(){
         // Empty list's response
-        if (taskCount == 0) {
+        if (taskList.isEmpty()) {
             System.out.println("You very free hor. Nothing to do");
             return;
         }
 
         // Non-empty list's response and printing loop
         System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
-        for (int i = 0; i < taskCount; i += 1){
+        for (int i = 0; i < taskList.size(); i += 1){
             System.out.println( (i+1) + ". " + taskList.get(i).toStringListFormat());
         }
+    }
+
+    // This method saves the taskList and updates the local file
+    public static void saveFile(){
+        auntie.startup.AuntieRetrieveFile.saveFileContents(taskList);
     }
 
     /*
@@ -93,6 +97,8 @@ public class AuntieTasker {
                 taskList.get(taskNumber).setDone(true);
                 System.out.println("Wah u finally stopped lazing around. Good good");
                 System.out.println(taskList.get(taskNumber).toStringTaskIcons() + taskList.get(taskNumber).description);
+
+                saveFile();
                 break;
             }
 
@@ -102,6 +108,8 @@ public class AuntieTasker {
                 taskList.get(taskNumber).setDone(false);
                 System.out.println("U lie to me issit? Want cheat horrr. U better watch out");
                 System.out.println(taskList.get(taskNumber).toStringTaskIcons() + taskList.get(taskNumber).description);
+
+                saveFile();
                 break;
             }
 
@@ -110,9 +118,9 @@ public class AuntieTasker {
                 int taskNumber = parseInt(taskDesc) - 1; // Array starts at 0 but user reads from 1
                 String removedTask = taskList.get(taskNumber).toStringListFormat();
                 taskList.remove(taskNumber);
-                taskCount -= 1;
 
                 removedTaskConfirmation(removedTask);
+                saveFile();
                 break;
             }
 
@@ -162,9 +170,10 @@ public class AuntieTasker {
         String eventDateTo = splitComponents[2];
 
         // Add task to taskList
-        addedTaskConfirmation(taskCount);
-        taskCount += 1;
         taskList.add(new Event(eventName, eventDateFrom, eventDateTo));
+
+        // Pass on index of latest task added
+        addedTaskConfirmation(taskList.size() - 1);
     }
 
     /*
@@ -177,9 +186,10 @@ public class AuntieTasker {
         String deadlineBy = splitComponents[1];
 
         // Add new task to taskList
-        addedTaskConfirmation(taskCount);
-        taskCount += 1;
         taskList.add(new Deadline(deadlineName, deadlineBy));
+
+        // Pass on index of latest task added
+        addedTaskConfirmation(taskList.size() - 1);
     }
 
     public static void addTodo(String taskDesc) {
@@ -189,9 +199,10 @@ public class AuntieTasker {
         }
 
         // Add new task to taskList
-        addedTaskConfirmation(taskCount);
-        taskCount += 1;
         taskList.add(new Todo(taskDesc));
+
+        // Pass on index of latest task added
+        addedTaskConfirmation(taskList.size() - 1);
     }
 
 
@@ -206,8 +217,7 @@ public class AuntieTasker {
         auntie.startup.AuntieGreeting.greetUser();
         auntie.startup.AuntieGreeting.setUserNickname();
 
-        auntie.startup.AuntieRetrieveFile();
-        // TODO: account for first-time vs local user
+        taskList = auntie.startup.AuntieRetrieveFile.loadFileContents();
 
         System.out.println("\nQuick, what you want do?");
 
