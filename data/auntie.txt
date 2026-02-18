@@ -1,0 +1,3 @@
+T | 0 | firsttask
+E | 0 | lecture  | friday 4pm  | 6pm
+D | 0 | homework  | tomorrow
