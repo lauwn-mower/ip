@@ -134,23 +134,23 @@ public class AuntieTasker {
 
             /*
              * Tasks classified into Todo, Deadline, Event
-             * Handled by respective handle<Task>() methods:
+             * Handled by respective add<Task>() methods:
              *     If new task added: Construct and add to taskList by type
              *     Confirm with user that the task has been added
              *     Increment taskCount
              */
             case CMD_TODO: {
-                addTodo(splitInput, taskDesc);
+                addTodo(taskDesc, taskList);
                 break;
             }
 
             case CMD_DEADLINE: {
-                addDeadline(taskDesc);
+                addDeadline(taskDesc, taskList);
                 break;
             }
 
             case CMD_EVENT: {
-                addEvent(taskDesc);
+                addEvent(taskDesc, taskList);
                 break;
             }
 
@@ -170,8 +170,8 @@ public class AuntieTasker {
         }
     }
 
-    private static void addEvent(String taskDesc) {
-        // Split userInput line by its description and deadline, then construct Deadline
+    private static void addEvent(String taskDesc, ArrayList<Task> taskArrayList) {
+        // Split userInput line by its description and event date, then construct Event
         String[] splitComponents = taskDesc.split("/", 3);
         String eventName = splitComponents[0];
         String eventDateFrom = splitComponents[1];
@@ -179,13 +179,13 @@ public class AuntieTasker {
 
         // Add task to taskList
         Event newEvent = new Event(eventName, eventDateFrom, eventDateTo);
-        taskList.add(taskCount, newEvent);
+        taskArrayList.add(taskCount, newEvent);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
     }
 
     // handleTask() methods
-    private static void addDeadline(String taskDesc) {
+    private static void addDeadline(String taskDesc, ArrayList<Task> taskArrayList) throws AuntieException {
         // Split userInput line by its description and deadline, then construct Deadline
         String[] splitComponents = taskDesc.split("/", 2);
         String deadlineName = splitComponents[0];
@@ -193,7 +193,7 @@ public class AuntieTasker {
 
         // Add new task to taskList
         Deadline newDeadline = new Deadline(deadlineName, deadlineBy);
-        taskList.add(taskCount, newDeadline);
+        taskArrayList.add(taskCount, newDeadline);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
     }
@@ -201,16 +201,15 @@ public class AuntieTasker {
     private static void addTodo(String[] splitInput, String taskDesc) throws AuntieException {
         // User might enter "todo" without a task -> program crash
         if (splitInput.length < 2){
+    public static void addTodo(String taskDesc, ArrayList<Task> taskArrayList) {
+        // Error handling: User might enter "todo" without a task -> program crash
+        if (taskDesc.isEmpty()){
             throw new IndexOutOfBoundsException();
-        }
-
-        if (taskDesc.trim().isEmpty()){
-            throw new AuntieException("U blind issit. Got nothing in this todo");
         }
 
         // Add new task to taskList
         Todo newTodo = new Todo(taskDesc);
-        taskList.add(taskCount, newTodo);
+        taskArrayList.add(taskCount, newTodo);
         addedTaskConfirmation(taskCount);
         taskCount += 1;
     }
