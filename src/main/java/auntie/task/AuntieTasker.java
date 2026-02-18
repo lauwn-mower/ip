@@ -163,10 +163,9 @@ public class AuntieTasker {
         } catch (IllegalArgumentException e) {
             System.out.println("Huh? Wat you waaaant. Can specify onot?");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Aiya formatting wrong lah. Do again" );
-        } catch (AuntieException e){
-            // Catch when there's an empty taskDesc after the command, handled in handleTodo()
-            System.out.println(e.getMessage());
+            System.out.println("Aiya formatting wrong lah. Do again");
+        } catch (AuntieException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -198,9 +197,6 @@ public class AuntieTasker {
         taskCount += 1;
     }
 
-    private static void addTodo(String[] splitInput, String taskDesc) throws AuntieException {
-        // User might enter "todo" without a task -> program crash
-        if (splitInput.length < 2){
     public static void addTodo(String taskDesc, ArrayList<Task> taskArrayList) {
         // Error handling: User might enter "todo" without a task -> program crash
         if (taskDesc.isEmpty()){
