@@ -5,15 +5,11 @@ import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 
 /* Class Usage details
- * co-use with Task class
- * AuntieTasker.echo() (remove from main()), Scan for inputs
  * This class is a TaskManager that continuously scans for user inputs, decodes those inputs and carries out commands respectively
  */
 
 public class AuntieTasker {
 
-    // Constants
-    public static final int SIZE_OF_TASKLIST = 100;
     // Constant inputs
     public static final String CMD_LIST = "list";
     public static final String CMD_EXIT = "bye";
@@ -47,6 +43,9 @@ public class AuntieTasker {
     }
     */
 
+    /*
+     * Section of methods dealing with bot responses when adding, deleting or viewing tasks
+     */
     public static void addedTaskConfirmation(int taskNumber){
         System.out.println("Ok, added liao:");
         System.out.println(taskList.get(taskNumber).toStringListFormat());
@@ -63,18 +62,22 @@ public class AuntieTasker {
 
     // This method goes through all the tasks in taskList and prints them out with isDone status
     public static void printList(){
-
+        // Empty list's response
         if (taskCount == 0) {
             System.out.println("You very free hor. Nothing to do");
             return;
         }
 
+        // Non-empty list's response and printing loop
         System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
         for (int i = 0; i < taskCount; i += 1){
             System.out.println( (i+1) + ". " + taskList.get(i).toStringListFormat());
         }
     }
 
+    /*
+     * Section of methods dealing with decoding user input and executing commands
+     */
 
     // This method identifies what to do based on userInput
     public static void decodeCommand(String userInput) {
@@ -86,6 +89,7 @@ public class AuntieTasker {
 
         try {
             switch (firstWord) {
+
             // Print list of tasks
             case CMD_LIST: {
                 printList();
@@ -117,6 +121,7 @@ public class AuntieTasker {
                 break;
             }
 
+            // Remove a task from taskList
             case CMD_DELETE: {
                 int taskNumber = parseInt(taskDesc) - 1; // Array starts at 0 but user reads from 1
                 String removedTask = taskList.get(taskNumber).toStringListFormat();
