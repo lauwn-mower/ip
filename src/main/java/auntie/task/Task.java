@@ -35,4 +35,10 @@ public class Task {
     public void setType(String type) {
         this.type = type;
     }
+
+    // Common method to convert string to suitable file format
+    public String toFileFormat() {
+        String status = isDone ? "1" : "0";
+        return "? | " + status + " | " + description;
+    }
 }

@@ -14,4 +14,9 @@ public class Deadline extends Task {
     public String toStringListFormat(){
         return toStringTaskIcons() + this.description + " (by: " + this.by + ")";
     }
+
+    @Override
+    public String toFileFormat() {
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
+    }
 }
