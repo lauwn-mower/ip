@@ -45,7 +45,7 @@ public class Parser {
                 break;
 
             case CMD_DELETE:
-                handleDelete(taskDescription);
+                handleDelete(taskDescription, tasks, ui, storage);
                 break;
 
             case CMD_MARK:
@@ -123,10 +123,27 @@ public class Parser {
         addTaskAndSave(tasks, ui, storage, t);
     }
 
-    private void handleDelete(String taskDesc) {
     }
 
     private void handleMark(String taskDesc) {
+    private void handleDelete(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        notEmptyDescription(taskDesc);
+
+        try {
+            // Convert the String argument to an index
+            int taskIndex = Integer.parseInt(taskDesc) - 1;
+
+            // TaskList class removes the task
+            // Return removedTask to be announced
+            Task removedTask = tasks.deleteTask(taskIndex);
+            ui.printDeletedTask(removedTask, tasks.getSize());
+
+            storage.saveFile(tasks);
+
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            ui.printError("Aiyo, which task you want delete? Give me a proper number leh.");
+        }
+    }
     }
 
     private void handleUnmark(String taskDesc) {
