@@ -1,9 +1,26 @@
 package auntie;
 
+
+import auntie.startup.Storage;
+import auntie.task.AuntieException;
+import auntie.task.TaskList;
+
 public class Auntie {
 
+    private Storage storage;
+    private TaskList tasks;
+
     public Auntie(String filePath) {
-        //TODO
+        storage = new Storage(filePath);
+
+        // File loading process:
+        // Try the block that loads assuming existing user, and Catch the error that occurs if user is new
+        try {
+            //
+            tasks = new TaskList(storage.loadFile());
+        } catch (AuntieException e) {
+            tasks = new TaskList();
+        }
     }
 
     // Main method
