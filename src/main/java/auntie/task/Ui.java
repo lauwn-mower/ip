@@ -16,7 +16,6 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    //adapt from auntiegreeting
     public void printWelcome(boolean isNewUser) {
         if (!isNewUser) {
             System.out.println("Eh Auntie remember u! Come, I bring out ur task list for u.");
@@ -26,18 +25,44 @@ public class Ui {
         System.out.println("\nQuick, what you want do?");
     }
 
-  //TODO: add printing functions
-
-    public void printList(TaskList taskList) {
-        //TODO
+    public void printError(String errorMessage) {
+        System.out.println("Aiyo! " + errorMessage);
     }
 
-    public void printAddedTask(TaskList taskList) {
-        //TODO
+    public void printAddedTask(Task newTask, int totalTasks) {
+        System.out.println("Ok, added liao:");
+        System.out.println("  " + newTask.toStringListFormat());
+        System.out.println("Now u got " + totalTasks + " things to do hor.");
     }
 
-    public void printDeletedTask(TaskList taskList) {
-        //TODO
+    public void printDeletedTask(Task deletedTask, int totalTasks) {
+        System.out.println("Ok, removed liao:");
+        System.out.println("  " + deletedTask.toStringListFormat());
+        System.out.println("Now u got " + totalTasks + " more things to do hor.");
     }
+
+    public void printList(TaskList tasks) {
+        // Handle case: Empty list
+        if (tasks.isEmpty()) {
+            System.out.println("You very free hor. Nothing to do.");
+            return;
+        }
+
+        // Handle case: Non-empty list
+        System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
+        for (int i = 0; i < tasks.getSize(); i++) {
+            printIndexedListItem(tasks, i);
+        }
+    }
+
+    /*
+     * Section: Helper functions
+     */
+    private static void printIndexedListItem(TaskList tasks, int i) {
+        System.out.println((i + 1) + ". " + tasks.getTask(i).toStringListFormat());
+    }
+
+
+
 
 }
