@@ -55,6 +55,17 @@ public class Ui {
         }
     }
 
+    public void printFormatHelp() {
+        System.out.println("Your format wrong leh. Listen properly ah:");
+        System.out.println("1. **todo** <description>");
+        System.out.println("   e.g., todo buy kopi");
+        System.out.println("2. **deadline** <description> **by** <date/time>");
+        System.out.println("   e.g., deadline CS2113 tutorial **by** Friday 11pm");
+        System.out.println("3. **event** <description> **from** <start> **to** <end>");
+        System.out.println("   e.g., event Water Polo training **from** 7pm **to** 9pm");
+        System.out.println("\nUnderstand onot? Try again");
+    }
+
     /*
      * Section: Helper functions
      */
@@ -62,7 +73,9 @@ public class Ui {
         System.out.println((i + 1) + ". " + tasks.getTask(i).toStringListFormat());
     }
 
-
-
-
+    public void printLine() {
+        System.out.println(" ");
+        System.out.println("-*-");
+        System.out.println(" ");
+    }
 }

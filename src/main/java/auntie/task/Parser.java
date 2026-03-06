@@ -63,6 +63,7 @@ public class Parser {
             }
         } catch (Exception e) {
             ui.printError(e.getMessage());
+            ui.printFormatHelp();
         }
 
         // Keep looping if false, since true=exitProgram
@@ -88,6 +89,7 @@ public class Parser {
         boolean wrongFormat = (byIndex <= 0);
         if (wrongFormat) {
             ui.printError("Aiyo, you forgot the 'by'! How I know when is the deadline?");
+            ui.printFormatHelp();
             return;
         }
 
