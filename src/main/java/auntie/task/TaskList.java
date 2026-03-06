@@ -8,7 +8,6 @@ public class TaskList {
     /*
      * TaskList constructors
      */
-
     // Construct task list for a NEW user
     public TaskList() {
         this.tasks = new ArrayList<>();
@@ -25,13 +24,20 @@ public class TaskList {
      * Section: Methods dealing with editing task list
      */
     public void addTask(Task t) {
-        tasks.add(t);
+        this.tasks.add(t);
     }
 
     public Task deleteTask(int index) {
-        return tasks.remove(index);
+        return this.tasks.remove(index);
     }
 
+    public void markTask(int index) {
+        tasks.get(index).setDone(true);
+    }
+
+    public void unmarkTask(int index) {
+        tasks.get(index).setDone(false);
+    }
 
     /*
      * Section: Helper functions to aid logic in tasklist functions
