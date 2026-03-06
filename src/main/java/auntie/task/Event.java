@@ -14,13 +14,17 @@ public class Event extends Task {
 
     @Override
     public String toStringListFormat(){
-        return toStringTaskIcons() + this.description
+        return toStringTaskIcons()
+                + this.description
                 + "(from: " + this.from
                 + " to: " + this.to + ")";
     }
 
     @Override
     public String toFileFormat() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+        return "E | " + (isDone ? "1" : "0")
+                + " | " + description
+                + " | " + from
+                + " | " + to;
     }
 }

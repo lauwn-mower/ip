@@ -37,11 +37,11 @@ public class Parser {
                 break;
 
             case CMD_DEADLINE:
-                handleDeadline(taskDescription);
+                handleDeadline(taskDescription, tasks, ui, storage);
                 break;
 
             case CMD_EVENT:
-                handleEvent(taskDescription);
+                handleEvent(taskDescription, tasks, ui, storage);
                 break;
 
             case CMD_DELETE:
@@ -80,10 +80,47 @@ public class Parser {
         addTaskAndSave(tasks, ui, storage, newTask);
     }
 
-    private void handleDeadline(String taskDesc) {
+    private void handleDeadline(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        // Expected format: <description> by <date/time>
+        int byIndex = taskDesc.indexOf("by ");
+
+        // If "by " is missing or at the very start (no description)
+        boolean wrongFormat = (byIndex <= 0);
+        if (wrongFormat) {
+            ui.printError("Aiyo, you forgot the 'by'! How I know when is the deadline?");
+            return;
+        }
+
+        // From taskDesc, identify taskName, date/time
+        String deadlineName = taskDesc.substring(0, byIndex).trim();
+        String by = taskDesc.substring(byIndex + 3).trim();
+
+        if (deadlineName.isEmpty() || by.isEmpty()) {
+            ui.printError("Eh, you cannot leave the task or the time empty lah.");
+            return;
+        }
+
+        Task t = new Deadline(deadlineName, by);
+        addTaskAndSave(tasks, ui, storage, t);
     }
 
-    private void handleEvent(String taskDesc) {
+    private void handleEvent(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        notEmptyDescription(taskDesc);
+
+        // Expected format: description from startTime to endTime
+        // From taskDesc, identify taskName, startTime, endTime
+        int fromIndex = taskDesc.indexOf("from");
+        int toIndex = taskDesc.indexOf("to");
+        if (fromIndex == -1 || toIndex == -1 || fromIndex > toIndex) {
+            throw new IndexOutOfBoundsException(); // Auntie will say "formatting wrong lah"
+        }
+
+        String eventName = taskDesc.substring(0, fromIndex).trim();
+        String from = taskDesc.substring(fromIndex + 4, toIndex).trim();
+        String to = taskDesc.substring(toIndex + 2).trim();
+
+        Task t = new Event(eventName, from, to);
+        addTaskAndSave(tasks, ui, storage, t);
     }
 
     private void handleDelete(String taskDesc) {
