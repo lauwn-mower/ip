@@ -33,7 +33,7 @@ public class Parser {
                 break;
 
             case CMD_TODO:
-                handleTodo(taskDescription);
+                handleTodo(taskDescription, tasks, ui, storage);
                 break;
 
             case CMD_DEADLINE:
@@ -73,7 +73,11 @@ public class Parser {
     /*
      * Section: handleTask functions to decode task details and add to taskList
      */
-    private void handleTodo(String taskDesc)  {
+    private void handleTodo(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        notEmptyDescription(taskDesc);
+
+        Task newTask = new Todo(taskDesc);
+        addTaskAndSave(tasks, ui, storage, newTask);
     }
 
     private void handleDeadline(String taskDesc) {
