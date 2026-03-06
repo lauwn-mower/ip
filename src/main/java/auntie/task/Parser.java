@@ -49,11 +49,11 @@ public class Parser {
                 break;
 
             case CMD_MARK:
-                handleMark(taskDescription);
+                handleMark(taskDescription, tasks, ui, storage);
                 break;
 
-            case CMD_UNMARK:
-                handleUnmark(taskDescription);
+            case CMD_UNMARK: handleMark(taskDescription, tasks, ui, storage);
+                handleUnmark(taskDescription, tasks, ui, storage);
                 break;
 
             default:
@@ -123,9 +123,24 @@ public class Parser {
         addTaskAndSave(tasks, ui, storage, t);
     }
 
+    private void handleMark(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        // Identify task to be marked
+        int idx = Integer.parseInt(taskDesc) - 1;
+        boolean isDone = tasks.getTask(idx).isDone();
+
+        // To mark task, first check that it's unmarked
+        // If already marked, inform user
+        if (!isDone) {
+            tasks.markTask(idx);
+            System.out.println("Wah u finally stopped lazing around. Good good");
+            return;
+        } else {
+            System.out.println("Eh, you mark already. You want remove?");
+        }
+
+        printUpdatedTask(tasks, storage, idx);
     }
 
-    private void handleMark(String taskDesc) {
     private void handleDelete(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
         notEmptyDescription(taskDesc);
 
@@ -144,9 +159,41 @@ public class Parser {
             ui.printError("Aiyo, which task you want delete? Give me a proper number leh.");
         }
     }
+
+    private void handleUnmark(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        // Identify task to be unmarked
+        int idx = Integer.parseInt(taskDesc) - 1;
+        boolean isDone = tasks.getTask(idx).isDone();
+
+        // To unmark task, first check if it's marked
+        if (isDone) {
+            tasks.unmarkTask(idx);
+            System.out.println("U lie to me issit? Want cheat horrr. But ok good that u own up");
+            return;
+        } else {
+            System.out.println("Hoi, you unmarked already");
+        }
+
+        printUpdatedTask(tasks, storage, idx);
     }
 
-    private void handleUnmark(String taskDesc) {
+    /*
+     * Section: Helper functions
+     */
+    private static void notEmptyDescription(String desc) {
+        if (desc.isEmpty()) {
+            throw new IllegalArgumentException("Wat you waaaant. Can specify onot?");
+        }
     }
 
+    private static void addTaskAndSave(TaskList tasks, Ui ui, Storage storage, Task t) throws IOException {
+        tasks.addTask(t);
+        ui.printAddedTask(t, tasks.getSize());
+        storage.saveFile(tasks);
+    }
+
+    private static void printUpdatedTask(TaskList tasks, Storage storage, int idx) throws IOException {
+        System.out.println(tasks.getTask(idx).toStringTaskIcons() + tasks.getTask(idx).description);
+        storage.saveFile(tasks);
+    }
 }
