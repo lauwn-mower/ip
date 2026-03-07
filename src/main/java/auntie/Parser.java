@@ -296,9 +296,4 @@ public class Parser {
         ui.printAddedTask(t, tasks.getSize());
         storage.saveFile(tasks);
     }
-
-    private static void printUpdatedTask(TaskList tasks, Storage storage, int idx) throws IOException {
-        System.out.println(tasks.getTask(idx).toStringTaskIcons() + tasks.getTask(idx).getDescription());
-        storage.saveFile(tasks);
-    }
 }
