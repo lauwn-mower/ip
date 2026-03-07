@@ -42,7 +42,7 @@ public class TaskList {
     public ArrayList<Task> findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task t : this.tasks) {
-            if (t.getDescription().contains(keyword)) {
+            if (t.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(t);
             }
         }
@@ -50,7 +50,7 @@ public class TaskList {
     }
 
     /*
-     * Section: Helper functions to aid logic in tasklist functions
+     * Section: Getter and helper functions to aid logic in tasklist functions
      */
     public Task getTask(int index) {
         return tasks.get(index);
