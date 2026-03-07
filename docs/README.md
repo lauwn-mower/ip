@@ -1,26 +1,36 @@
-# Duke User Guide
+# AuntieBot User Guide
+### *Your Rabak Life Manager*
 
-// Update the title above to match the actual product name
+Auntie is a CLI (Command Line Interface) task manager (spiced with a tinge of Singlish) that helps you keep your todo-list "steady pom pi pi." 
+---
 
-// Product screenshot goes here
+## Quick Start
 
-// Product intro goes here
+1. Ensure you have **Java JDK 17** installed on your computer.
+2. Download the latest `Auntie.jar` from the [Releases](#) page.
+3. Copy the file to the folder you want to use as the **home folder** for your task manager.
+4. Open a command window (Terminal/Command Prompt) in that folder and run the command:
+   ```bash
+   java -jar Auntie.jar
+   
+## Features
+### Help feature: 
+Command:
+Output:
 
-## Adding deadlines
+### Adding tasks: <task type> + <task description> + <additional details if deadline/event>
+Adding a task to the list.
 
-// Describe the action and its outcome.
+Format: 
+Example:
+Expected Outcome
 
-// Give examples of usage
+### Deleting tasks:
 
-Example: `keyword (optional arguments)`
+Format: 
+Example
 
-// A description of the expected outcome goes here
-
-```
-expected output
-```
-
-## Feature ABC
+## Autosave on local device as txt.file
 
 // Feature details
 
@@ -28,3 +38,4 @@ expected output
 ## Feature XYZ
 
 // Feature details
+
