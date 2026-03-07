@@ -57,6 +57,7 @@ Format: `delete <index>`
 ### View task list:
 Displays all the tasks currently in your list, showing their completion status, type, and any associated timings.
 
+Format: `list`
 
 ### Find task(s)
 Searches for tasks in the list that contain the specified keyword in their description.
