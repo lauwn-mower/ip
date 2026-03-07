@@ -63,6 +63,16 @@ public class Ui {
         System.out.println("Now u got " + totalTasks + " more things to do hor.");
     }
 
+    public void printMarkedTask(Task task) {
+        System.out.println("Wah u finally stopped lazing around. Good good.");
+        System.out.println("  " + task.toStringListFormat());
+    }
+
+    /** Same as {@link #printMarkedTask}, but for unmarking a task. */
+    public void printUnmarkedTask(Task task) {
+        System.out.println("Wah you never finish then you mark as done? Can, unmarked liao.");
+        System.out.println("  " + task.toStringListFormat());
+    }
     public void printList(TaskList tasks) {
         // Handle case: Empty list
         if (tasks.isEmpty()) {
