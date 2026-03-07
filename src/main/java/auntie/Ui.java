@@ -6,6 +6,11 @@ import java.util.Scanner;
 import auntie.task.Task;
 import auntie.task.TaskList;
 
+/**
+ * Represents the user interface of the Auntie chatbot.
+ * Handles all interactions with the user, including reading input commands
+ * and displaying feedback with a specific personality.
+ */
 public class Ui {
 
     private final Scanner scanner;
@@ -28,6 +33,10 @@ public class Ui {
         return scanner.nextLine();
     }
 
+    /**
+     * Displays the welcome message based on whether the user is new.
+     * @param isNewUser True if no previous data was found, false otherwise.
+     */
     public void printWelcome(boolean isNewUser) {
         if (!isNewUser) {
             System.out.println("Eh Auntie remember u! Come, I bring out ur task list for u.");
@@ -38,7 +47,9 @@ public class Ui {
         System.out.println("\nQuick, what u wan do?");
     }
 
-    // This method prints the Chatbot's self-introduction and purpose
+    /**
+     * Displays the chatbot's logo and initial greeting message.
+     */
     public static void printGreeting() {
         Ui.printLine();
         System.out.println("Hallo! Can call me:");
@@ -47,22 +58,36 @@ public class Ui {
         Ui.printLine();
     }
 
+    /**
+     * Displays an error message to the user.
+     * @param errorMessage The error message to be displayed.
+     */
     public void printError(String errorMessage) {
         System.out.println("Aiyo! " + errorMessage);
     }
 
+    /**
+     * Displays a confirmation message when a task is successfully added.
+     * @param newTask The task that was added.
+     * @param totalTasks The current total number of tasks in the list.
+     */
     public void printAddedTask(Task newTask, int totalTasks) {
         System.out.println("Ok, added liao:");
         System.out.println("  " + newTask.toStringListFormat());
         System.out.println("Now u got " + totalTasks + " things to do hor.");
     }
 
+    /** Same as {@link #printAddedTask}, but for task deletion. */
     public void printDeletedTask(Task deletedTask, int totalTasks) {
         System.out.println("Ok, removed liao:");
         System.out.println("  " + deletedTask.toStringListFormat());
         System.out.println("Now u got " + totalTasks + " more things to do hor.");
     }
 
+    /**
+     * Displays a confirmation message and the details of the marked task.
+     * @param task The task that was successfully marked as done.
+     */
     public void printMarkedTask(Task task) {
         System.out.println("Wah u finally stopped lazing around. Good good.");
         System.out.println("  " + task.toStringListFormat());
@@ -73,6 +98,11 @@ public class Ui {
         System.out.println("Wah you never finish then you mark as done? Can, unmarked liao.");
         System.out.println("  " + task.toStringListFormat());
     }
+
+    /**
+     * Displays all tasks currently in the task list.
+     * @param tasks The TaskList object containing user tasks.
+     */
     public void printList(TaskList tasks) {
         // Handle case: Empty list
         if (tasks.isEmpty()) {
@@ -87,6 +117,10 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays the results of a keyword search operation.
+     * @param results The list of tasks that matched the search keyword.
+     */
     public void printFoundTasks(ArrayList<Task> results) {
         if (results.isEmpty()) {
             System.out.println("I look until my eyes pain also cannot find leh");

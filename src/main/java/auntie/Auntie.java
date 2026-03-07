@@ -4,13 +4,22 @@ import auntie.task.TaskList;
 import auntie.task.AuntieException;
 import auntie.startup.Storage;
 
+/**
+ * Represents the main entry point for the Auntie chatbot application.
+ * Coordinates the interaction between the user interface, task storage,
+ * and command parsing.
+ * * @author lauwn-mower
+ * @version v1.0
+ */
 public class Auntie {
     private Ui ui;
     private Storage storage;
     private TaskList tasks;
 
-    // Constructor for Auntie additionally constructs Ui and Storage object
-    // With Storage created, start loading up user's use history
+    /**
+     * Initializes the Auntie application components and loads existing tasks.
+     * * @param filePath The path to the file where task data is stored.
+     */
     public Auntie(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -29,6 +38,10 @@ public class Auntie {
         }
     }
 
+    /**
+     * Starts the main program loop to read user commands and delegate
+     * execution to the Parser.
+     */
     public void run() {
         // A flag to identify start and stop of program
         boolean isExit = false;
@@ -51,6 +64,10 @@ public class Auntie {
         }
     }
 
+    /**
+     * Creates an Auntie instance and runs the application.
+     * * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         new Auntie("data/tasks.txt").run();
     }

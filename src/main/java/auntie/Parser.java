@@ -25,7 +25,14 @@ public class Parser {
     public static final String CMD_FIND = "find";
     public static final String CMD_HELP = "help";
 
-    // This method takes in inputs and decodes what to execute
+    /**
+     * Parses the user input and executes the appropriate command.
+     * * @param fullCommand The raw input string from the user.
+     * @param tasks The task list to be modified or queried.
+     * @param ui The user interface for printing responses.
+     * @param storage The storage handler for saving changes.
+     * @return True if the program should terminate, false otherwise.
+     */
     public boolean parse(String fullCommand, TaskList tasks, Ui ui, Storage storage) {
         // Split the input into command and description
         // Command is the first word of the input, else taskDescription
@@ -96,6 +103,14 @@ public class Parser {
      * Section: handleTask functions to analyse task details and add to taskList
      */
 
+    /**
+     * Processes and adds a specific task type to the task list and storage.
+     * Validates input format, creates the task object, and triggers a save.
+     * * @param taskDesc The raw description string from the user.
+     * @param tasks The task list to be modified.
+     * @param ui The UI for user feedback.
+     * @param storage The storage for data persistence.
+     * @throws IOException If saving to file fails.
      */
     private void handleTodo(String taskDesc, TaskList tasks, Ui ui, Storage storage)
             throws AuntieException, IOException {
@@ -108,6 +123,10 @@ public class Parser {
         addTaskAndSave(tasks, ui, storage, newTask);
     }
 
+    /**
+     * Same as {@link #handleTodo}, but specifically for Deadline tasks.
+     * @throws AuntieException If 'by' is missing or fields are empty.
+     */
     private void handleDeadline(String taskDesc, TaskList tasks, Ui ui, Storage storage)
             throws AuntieException, IOException {
 
@@ -134,6 +153,10 @@ public class Parser {
         addTaskAndSave(tasks, ui, storage, t);
     }
 
+    /**
+     * Same as {@link #handleTodo}, but specifically for Event tasks.
+     * @throws AuntieException If 'from/to' format is incorrect or fields are empty.
+     */
     private void handleEvent(String taskDesc, TaskList tasks, Ui ui, Storage storage)
             throws AuntieException, IOException {
 
@@ -163,6 +186,16 @@ public class Parser {
         addTaskAndSave(tasks, ui, storage, t);
     }
 
+    /**
+     * Marks a task as completed and displays the updated status.
+     * Uses {@link #parseIndex} to validate the user input and retrieve the task.
+     * @param taskDesc The 1-based index string from the user.
+     * @param tasks The list containing the target task.
+     * @param ui The UI for displaying the success message.
+     * @param storage The storage for persisting the status change.
+     * @throws AuntieException If the index is non-numeric or out of bounds.
+     * @throws IOException If saving the status change to the file fails.
+     */
     private void handleMark(String taskDesc, TaskList tasks, Ui ui, Storage storage)
             throws AuntieException, IOException {
 
@@ -181,6 +214,7 @@ public class Parser {
         ui.printMarkedTask(t);
     }
 
+    /** * Same as {@link #handleMark}, but specifically for unmarking a task as not done. */
     private void handleUnmark(String taskDesc, TaskList tasks, Ui ui, Storage storage)
             throws AuntieException, IOException {
 
@@ -199,6 +233,16 @@ public class Parser {
         ui.printUnmarkedTask(t);
     }
 
+    /**
+     * Deletes a task from the list based on its index.
+     * Uses {@link #parseIndex} to validate the input before removal.
+     * @param taskDesc The 1-based index string provided by the user.
+     * @param tasks The TaskList to remove the task from.
+     * @param ui The UI for displaying the "removed liao" confirmation.
+     * @param storage The Storage handler for updating the data file.
+     * @throws AuntieException If the index is non-numeric or out of bounds.
+     * @throws IOException If saving the updated list to the file fails.
+     */
     private void handleDelete(String taskDesc, TaskList tasks, Ui ui, Storage storage)
             throws AuntieException, IOException {
 
@@ -219,9 +263,22 @@ public class Parser {
     /*
      * Section: Helper functions
      */
+    /**
+     * Checks if the provided task description is null or consists only of whitespace.
+     * @param desc The description string to validate.
+     * @return True if the description is empty or blank, false otherwise.
+     */
     private static boolean isEmptyDescription(String desc) {
         return desc == null || desc.trim().isEmpty();
     }
+
+    /**
+     * Converts a string input into a valid 0-based index.
+     * @param input The raw string input from the user.
+     * @param size The current size of the TaskList.
+     * @return A valid 0-based integer index.
+     * @throws AuntieException If the input is not a number or is out of bounds.
+     */
     private int parseIndex(String input, int size) throws AuntieException {
         try {
             int idx = Integer.parseInt(input.trim()) - 1;
