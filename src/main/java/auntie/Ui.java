@@ -8,6 +8,7 @@ import auntie.task.TaskList;
 
 public class Ui {
 
+    private final Scanner scanner;
     public static final String LOGO =
             "                      _   _      \n"
             + "     /\\              | | (_)     \n"
@@ -16,10 +17,9 @@ public class Ui {
             + "  / ____ \\ |_| | | | | |_| |  __/\n"
             + " /_/    \\_\\____|_| |_|\\__|_|\\___|\n";
 
-    // Create a Scanner once and use across methods instead of creating a scanner for each method
-    private final Scanner scanner;
-
-    // Construct UI class to scan and process inputs accordingly
+    /**
+     * Initializes the UI by setting up the input scanner.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
@@ -124,27 +124,31 @@ public class Ui {
     }
 
     public static void printHelp() {
-        System.out.println("Mai kanchiong, Auntie will help you.");
-        System.out.println("Here is what Auntie can do for you:");
-        System.out.println("");
-        System.out.println("**VIEWING TASKS**");
-        System.out.println("  list           - See ur whole task list.");
-        System.out.println("  find <keyword> - Show u the tasks containing ur keyword.");
-        System.out.println("");
-        System.out.println("**ADDING TASKS**");
-        System.out.println("  todo <desc>                         - General task to do.");
-        System.out.println("  deadline <desc> by <time>           - Task with a due date.");
-        System.out.println("  event <desc> from <start> to <end>  - Task with a duration.");
-        System.out.println("");
-        System.out.println("**MANAGING TASKS**");
-        System.out.println("  mark <index>   - Finished liao? Mark the task. Shiok hor.");
-        System.out.println("  unmark <index> - Not finished yet but you cockeye and mark as done? Uncheck task.");
-        System.out.println("  delete <index> - Clear task from ur list! One down lio.");
-        System.out.println("");
-        System.out.println("**OTHERS**");
-        System.out.println("  bye           - Close the program (Auntie will save ur data!).");
-        System.out.println("  help          - See this message again. Buay paiseh hor.");
-        System.out.println("--------------------------------------------------");
-        System.out.println("Just type what u need and Auntie will help u!");
+        String helpMessage = """
+        Mai kanchiong, Auntie will help you.
+        Here is what Auntie can do for you:
+        
+        **VIEWING TASKS**
+          list           - See ur whole task list.
+          find <keyword> - Show u the tasks containing ur keyword.
+        
+        **ADDING TASKS**
+          todo <desc>                         - General task to do.
+          deadline <desc> by <time>           - Task with a due date.
+          event <desc> from <start> to <end>  - Task with a duration.
+        
+        **MANAGING TASKS**
+          mark <index>   - Finished liao? Mark the task. Shiok hor.
+          unmark <index> - Not finished yet but you cockeye and mark as done? Uncheck task.
+          delete <index> - Clear task from ur list! One down lio.
+        
+        **OTHERS**
+          bye           - Close the program (Auntie will save ur data!).
+          help          - See this message again. Buay paiseh hor.
+        --------------------------------------------------
+        Just type what u need and Auntie will help u!
+        """;
+
+        System.out.println(helpMessage);
     }
 }
