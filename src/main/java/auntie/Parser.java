@@ -1,6 +1,7 @@
 package auntie;
 
 import auntie.startup.Storage;
+import auntie.task.AuntieException;
 import auntie.task.Deadline;
 import auntie.task.Event;
 import auntie.task.Task;
@@ -35,6 +36,7 @@ public class Parser {
         try {
             switch (commandWord) {
             case CMD_EXIT:
+                System.out.println("Bye! Remember come back visit Auntie hor.");
                 // Stop run(), save and close
                 return true;
 
@@ -93,115 +95,142 @@ public class Parser {
     /*
      * Section: handleTask functions to analyse task details and add to taskList
      */
-    private void handleTodo(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
-        notEmptyDescription(taskDesc);
 
-        Task newTask = new Todo(taskDesc);
+     */
+    private void handleTodo(String taskDesc, TaskList tasks, Ui ui, Storage storage)
+            throws AuntieException, IOException {
+
+        if (isEmptyDescription(taskDesc)) {
+            throw new AuntieException("Wat you waaaant. Can specify onot?");
+        }
+
+        Task newTask = new Todo(taskDesc.trim());
         addTaskAndSave(tasks, ui, storage, newTask);
     }
 
-    private void handleDeadline(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+    private void handleDeadline(String taskDesc, TaskList tasks, Ui ui, Storage storage)
+            throws AuntieException, IOException {
+
+        if (isEmptyDescription(taskDesc)) {
+            throw new AuntieException("Aiyo, you want a deadline but no task name? Specify leh!");
+        }
+
         // Expected format: <description> by <date/time>
         int byIndex = taskDesc.indexOf("by ");
 
-        // If "by " is missing or at the very start (no description)
-        boolean wrongFormat = (byIndex <= 0);
-        if (wrongFormat) {
-            ui.printError("Aiyo, u forgot the 'by'! How I know when the deadline?");
-            ui.printFormatHelp();
-            return;
+        // Guard Clause: Ensure the "by" keyword exists and isn't at the very start
+        if (byIndex <= 0) {
+            throw new AuntieException("You forgot the 'by'! How Auntie know when the deadline?");
         }
 
-        // From taskDesc, identify taskName, date/time
         String deadlineName = taskDesc.substring(0, byIndex).trim();
         String by = taskDesc.substring(byIndex + 3).trim();
 
         if (deadlineName.isEmpty() || by.isEmpty()) {
-            ui.printError("Eh, cannot leave the task or the time empty lah.");
-            return;
+            throw new AuntieException("Eh, you cannot leave the task or the time empty lah.");
         }
 
         Task t = new Deadline(deadlineName, by);
         addTaskAndSave(tasks, ui, storage, t);
     }
 
-    private void handleEvent(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
-        notEmptyDescription(taskDesc);
+    private void handleEvent(String taskDesc, TaskList tasks, Ui ui, Storage storage)
+            throws AuntieException, IOException {
 
-        // Expected format: description from startTime to endTime
-        // From taskDesc, identify taskName, startTime, endTime
+        if (isEmptyDescription(taskDesc)) {
+            throw new AuntieException("Event name where? Don't play play, tell Auntie what's happening.");
+        }
+
+        // Expected format: description from <startTime> to <endTime>
         int fromIndex = taskDesc.indexOf("from");
         int toIndex = taskDesc.indexOf("to");
-        if (fromIndex == -1 || toIndex == -1 || fromIndex > toIndex) {
-            throw new IndexOutOfBoundsException(); // Auntie will say "formatting wrong lah"
+        boolean isInvalidEvent = fromIndex == -1 || toIndex == -1 || fromIndex > toIndex;
+
+        // Guard Clause: Check for existence and logical order
+        if (isInvalidEvent) {
+            throw new AuntieException("Your event format rabak. Use: <desc> from <start> to <end>");
         }
 
         String eventName = taskDesc.substring(0, fromIndex).trim();
         String from = taskDesc.substring(fromIndex + 4, toIndex).trim();
         String to = taskDesc.substring(toIndex + 2).trim();
 
+        if (eventName.isEmpty() || from.isEmpty() || to.isEmpty()) {
+            throw new AuntieException("Auntie needs the event name, start time, AND end time hor.");
+        }
+
         Task t = new Event(eventName, from, to);
         addTaskAndSave(tasks, ui, storage, t);
     }
 
-    private void handleMark(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
-        // Identify task to be marked
-        int idx = Integer.parseInt(taskDesc) - 1;
-        boolean isDone = tasks.getTask(idx).isDone();
+    private void handleMark(String taskDesc, TaskList tasks, Ui ui, Storage storage)
+            throws AuntieException, IOException {
 
-        // To mark task, first check that it's unmarked
-        // If already marked, inform user
-        if (!isDone) {
-            System.out.println("Wah u finally stopped lazing around. Good good");
-            tasks.markTask(idx);
-        } else {
-            System.out.println("Eh, you mark already. You want remove?");
+        // Retrieve task to be marked
+        int idx = parseIndex(taskDesc, tasks.getSize());
+        Task t = tasks.getTask(idx);
+
+        // Guard clause: ensure task is actually unmarked before marking
+        if (t.isDone()) {
+            ui.printError("Eh, u marked this liao. Can this task already lah.");
+            return;
         }
 
-        printUpdatedTask(tasks, storage, idx);
+        tasks.markTask(idx);
+        storage.saveFile(tasks);
+        ui.printMarkedTask(t);
     }
 
-    private void handleUnmark(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
-        // Identify task to be unmarked
-        int idx = Integer.parseInt(taskDesc) - 1;
-        boolean isDone = tasks.getTask(idx).isDone();
+    private void handleUnmark(String taskDesc, TaskList tasks, Ui ui, Storage storage)
+            throws AuntieException, IOException {
 
-        // To unmark task, first check if it's marked
-        if (isDone) {
-            System.out.println("Wah you never finish then you mark as done?");
-            tasks.unmarkTask(idx);
-        } else {
-            System.out.println("Hoi, you unmarked already");
+        // Retrieve task to be unmarked
+        int idx = parseIndex(taskDesc, tasks.getSize());
+        Task t = tasks.getTask(idx);
+
+        // Guard clause: ensure task is actually marked before unmarking
+        if (!t.isDone()) {
+            ui.printError("Hoi, you unmarked already. Don't play play.");
+            return;
         }
 
-        printUpdatedTask(tasks, storage, idx);
+        tasks.unmarkTask(idx);
+        storage.saveFile(tasks);
+        ui.printUnmarkedTask(t);
     }
 
-    private void handleDelete(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
-        notEmptyDescription(taskDesc);
+    private void handleDelete(String taskDesc, TaskList tasks, Ui ui, Storage storage)
+            throws AuntieException, IOException {
 
-        try {
-            // Convert the String argument to an index
-            int taskIndex = Integer.parseInt(taskDesc) - 1;
+        // Validate and convert input using our shared helper
+        int taskIndex = parseIndex(taskDesc, tasks.getSize());
 
-            // TaskList class removes the task
-            // Return removedTask to be announced
-            Task removedTask = tasks.deleteTask(taskIndex);
-            ui.printDeletedTask(removedTask, tasks.getSize());
+        // Execute deletion and retrieve the task for the announcement
+        Task removedTask = tasks.deleteTask(taskIndex);
 
-            storage.saveFile(tasks);
+        // Save changes to local storage
+        storage.saveFile(tasks);
 
-        } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            ui.printError("Aiyo, which task you want delete? Give me a proper number leh.");
-        }
+        // Inform user of success
+        ui.printDeletedTask(removedTask, tasks.getSize());
     }
+
 
     /*
      * Section: Helper functions
      */
-    private static void notEmptyDescription(String desc) {
-        if (desc.isEmpty()) {
-            throw new IllegalArgumentException("Wat you waaaant. Can specify onot?");
+    private static boolean isEmptyDescription(String desc) {
+        return desc == null || desc.trim().isEmpty();
+    }
+    private int parseIndex(String input, int size) throws AuntieException {
+        try {
+            int idx = Integer.parseInt(input.trim()) - 1;
+            if (idx < 0 || idx >= size) {
+                throw new AuntieException("This task doesn't exist leh. You only got " + size + " tasks hor.");
+            }
+            return idx;
+        } catch (NumberFormatException e) {
+            throw new AuntieException("Eh, need number lah. Go see list again for task index.");
         }
     }
 
