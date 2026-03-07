@@ -1,6 +1,12 @@
 package auntie.task;
 
 import auntie.startup.Storage;
+import auntie.task.Deadline;
+import auntie.task.Event;
+import auntie.task.Task;
+import auntie.task.TaskList;
+import auntie.task.Todo;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -200,7 +206,7 @@ public class Parser {
     }
 
     private static void printUpdatedTask(TaskList tasks, Storage storage, int idx) throws IOException {
-        System.out.println(tasks.getTask(idx).toStringTaskIcons() + tasks.getTask(idx).description);
+        System.out.println(tasks.getTask(idx).toStringTaskIcons() + tasks.getTask(idx).getDescription());
         storage.saveFile(tasks);
     }
 }

@@ -1,7 +1,10 @@
-package auntie.task;
+package auntie;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import auntie.task.Task;
+import auntie.task.TaskList;
 
 public class Ui {
     
@@ -85,8 +88,7 @@ public class Ui {
         System.out.println((i + 1) + ". " + tasks.getTask(i).toStringListFormat());
     }
 
-    public void printLine() {
+    public static void printLine() {
         System.out.println("-*-");
-        System.out.println(" ");
     }
 }
