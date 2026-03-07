@@ -9,7 +9,7 @@ import auntie.startup.Storage;
  * Coordinates the interaction between the user interface, task storage,
  * and command parsing.
  * * @author lauwn-mower
- * @version v1.0
+ * @version v0.2
  */
 public class Auntie {
     private Ui ui;
