@@ -20,7 +20,7 @@ Displays a comprehensive list of all available commands and their correct usage 
 
 Command: `help`
 
-Output:
+Expected Output:
    ```text
    Mai kanchiong, Auntie will help you.
 Here is what Auntie can do for you:
