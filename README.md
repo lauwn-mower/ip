@@ -1,26 +1,74 @@
-# Duke project template
+# AuntieBot User Guide
+### *Your Rabak Life Manager*
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Auntie is a CLI (Command Line Interface) task manager (spiced with a tinge of Singlish) that helps you keep your todo-list "steady pom pi pi." 
+---
 
-## Setting up in Intellij
+## Quick Start
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
-
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
+1. Ensure you have **Java JDK 17** installed on your computer.
+2. Download the latest `Auntie.jar` from the [Releases](https://github.com/lauwn-mower/ip/releases) page.
+3. Copy the file to the folder you want to use as the **home folder** for your task manager.
+4. Open a command window (Terminal/Command Prompt) in that folder and run the command:
+   ```text
+   java -jar Auntie.jar
    ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+   
+## Features
+### Help feature
+Displays a comprehensive list of all available commands and their correct usage formats.
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+Command: `help`
+
+Output:
+   ```text
+   Mai kanchiong, Auntie will help you.
+Here is what Auntie can do for you:
+
+**VIEWING TASKS**
+  list           - See ur whole task list.
+  find <keyword> - Show u the tasks containing ur keyword.
+...
+```
+
+### Adding tasks
+Adds a new task (Todo, Deadline, or Event) to Auntie's notebook.
+
+Formats:
+`todo <description>`
+`deadline <description> by <time>`
+`event <description from <start> to <end>`
+
+Example: `event cs2113 lecture from friday 4pm to 6pm`
+
+Expected output:
+   ```text
+Ok, added liao:
+  [E][ ] cs2113 lecture (from friday 6pm)
+Now u got 3 things to do hor.
+```
+
+### Deleting tasks
+Removes an existing task from the list using its specific index number.
+
+Format: `delete <index>`
+
+
+### View task list:
+Displays all the tasks currently in your list, showing their completion status, type, and any associated timings.
+
+
+### Find task(s)
+Searches for tasks in the list that contain the specified keyword in their description.
+
+Format: `find <description>`
+
+
+### Autosave on local device as txt.file
+Ensures your progress is never lost by saving data locally.
+
+Feature Details:
+Every time a command modifies the task list (add, delete, mark, or unmark), Auntie automatically updates a tasks.txt file located in the /data folder of your home directory. When you restart the application, Auntie automatically detects the file and loads your tasks.
+
+
+
