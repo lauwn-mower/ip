@@ -52,7 +52,7 @@ public class Parser {
                 handleMark(taskDescription, tasks, ui, storage);
                 break;
 
-            case CMD_UNMARK: handleMark(taskDescription, tasks, ui, storage);
+            case CMD_UNMARK:
                 handleUnmark(taskDescription, tasks, ui, storage);
                 break;
 
@@ -133,11 +133,26 @@ public class Parser {
         // To mark task, first check that it's unmarked
         // If already marked, inform user
         if (!isDone) {
-            tasks.markTask(idx);
             System.out.println("Wah u finally stopped lazing around. Good good");
-            return;
+            tasks.markTask(idx);
         } else {
             System.out.println("Eh, you mark already. You want remove?");
+        }
+
+        printUpdatedTask(tasks, storage, idx);
+    }
+
+    private void handleUnmark(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
+        // Identify task to be unmarked
+        int idx = Integer.parseInt(taskDesc) - 1;
+        boolean isDone = tasks.getTask(idx).isDone();
+
+        // To unmark task, first check if it's marked
+        if (isDone) {
+            System.out.println("Wah you never finish then you mark as done?");
+            tasks.unmarkTask(idx);
+        } else {
+            System.out.println("Hoi, you unmarked already");
         }
 
         printUpdatedTask(tasks, storage, idx);
@@ -160,23 +175,6 @@ public class Parser {
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             ui.printError("Aiyo, which task you want delete? Give me a proper number leh.");
         }
-    }
-
-    private void handleUnmark(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
-        // Identify task to be unmarked
-        int idx = Integer.parseInt(taskDesc) - 1;
-        boolean isDone = tasks.getTask(idx).isDone();
-
-        // To unmark task, first check if it's marked
-        if (isDone) {
-            tasks.unmarkTask(idx);
-            System.out.println("U lie to me issit? Want cheat horrr. But ok good that u own up");
-            return;
-        } else {
-            System.out.println("Hoi, you unmarked already");
-        }
-
-        printUpdatedTask(tasks, storage, idx);
     }
 
     /*
