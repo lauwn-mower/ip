@@ -39,6 +39,17 @@ public class TaskList {
         tasks.get(index).setDone(false);
     }
 
+    // Return list of a new ArrayList<Task> built from tasks containing keyword
+    public ArrayList<Task> findTasks(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task t : this.tasks) {
+            if (t.getDescription().contains(keyword)) {
+                matchingTasks.add(t);
+            }
+        }
+        return matchingTasks;
+    }
+
     /*
      * Section: Helper functions to aid logic in tasklist functions
      */

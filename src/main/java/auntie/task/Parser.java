@@ -2,6 +2,7 @@ package auntie.task;
 
 import auntie.startup.Storage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Parser {
 
@@ -14,6 +15,7 @@ public class Parser {
     public static final String CMD_DEADLINE = "deadline";
     public static final String CMD_EVENT = "event";
     public static final String CMD_DELETE = "delete";
+    public static final String CMD_FIND = "find";
 
     public boolean parse(String fullCommand, TaskList tasks, Ui ui, Storage storage) {
         // Split the input into command and description
@@ -54,6 +56,10 @@ public class Parser {
 
             case CMD_UNMARK:
                 handleUnmark(taskDescription, tasks, ui, storage);
+                break;
+
+            case CMD_FIND:
+                ArrayList<Task> foundTasks = tasks.findTasks(taskDescription);
                 break;
 
             default:
