@@ -2,26 +2,28 @@ package auntie.task;
 
 import java.util.ArrayList;
 
+/**
+ * Represents the task list containing the data and operations for task management.
+ * Provides methods to add, delete, mark, and search for tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
-    /*
-     * TaskList constructors
+    /**
+     * Constructs an empty task list for a new user.
      */
-    // Construct task list for a NEW user
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
-    // Construct task list for an EXISTING user
-    // To be used with file retrieval function in main()
+    /**
+     * Constructs a task list using an existing collection of tasks.
+     * * @param tasks The initial list of tasks retrieved from storage.
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
-    /*
-     * Section: Methods dealing with editing task list
-     */
     public void addTask(Task t) {
         this.tasks.add(t);
     }
@@ -38,7 +40,12 @@ public class TaskList {
         tasks.get(index).setDone(false);
     }
 
-    // Return list of a new ArrayList<Task> built from tasks containing keyword
+    /**
+     * Returns a list of tasks that contain the specified keyword in their description.
+     * Case-sensitivity depends on the implementation (typically case-insensitive for Auntie).
+     * @param keyword The search term provided by the user.
+     * @return An ArrayList containing all tasks that match the keyword.
+     */
     public ArrayList<Task> findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task t : this.tasks) {

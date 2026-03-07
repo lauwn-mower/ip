@@ -3,3 +3,4 @@ T | 1 | buy pencil
 D | 0 | cs2113 ip | friday 2350
 E | 0 | cs2113 lecture | friday 4pm | 6pm
 T | 1 | debug ip
+T | 0 | that

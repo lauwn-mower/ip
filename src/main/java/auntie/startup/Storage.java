@@ -1,10 +1,5 @@
 package auntie.startup;
 
-// TODO: add JavaDoc header comments
-// This class is able to:
-// load() the (existing) user's last tasklist from local file
-// save() the user's update
-
 import static auntie.startup.FileRetriever.decodeFileString;
 
 import java.io.File;
@@ -18,6 +13,11 @@ import auntie.task.AuntieException;
 import auntie.task.Task;
 import auntie.task.TaskList;
 
+/**
+ * Handles the loading and saving of task data to a local file.
+ * Acts as the bridge between the application's TaskList and the persistent storage
+ * on the hard drive.
+ */
 public class Storage {
     private String filePath;
 
@@ -25,10 +25,12 @@ public class Storage {
         this.filePath = filePath;
     }
 
-    /*
-     * Section: Main Storage methods of load() and save()
+    /**
+     * Loads tasks from the data file and returns them as an ArrayList.
+     * Processes each line of the file using a decoder to reconstruct Task objects.
+     * * @return An ArrayList of Task objects retrieved from the file.
+     * @throws AuntieException If the file cannot be found or accessed.
      */
-
     public ArrayList<Task> loadFile() throws AuntieException {
         ArrayList<Task> loadedTasks = new ArrayList<>();
         File f = new File(this.filePath);
@@ -50,17 +52,23 @@ public class Storage {
 
         return loadedTasks;    }
 
+    /**
+     * Saves the current list of tasks to the data file.
+     * Iterates through the TaskList and writes each task using its specific
+     * toFileFormat documentation.
+     * * @param taskList The TaskList containing the tasks to be saved.
+     * @throws IOException If an error occurs during the file writing process.
+     */
     public void saveFile(TaskList taskList) throws IOException, IOException {
         int numberOfTasks = taskList.getSize();
         File updatedFile = new File(this.filePath);
 
-        // If file missing, create new directory
+        // Creates directory if it is missing
         if (updatedFile.getParentFile() != null) {
             updatedFile.getParentFile().mkdirs();
         }
 
-        // Open FileWriter with the filePath
-        // Write taskList items to updateFile
+        // Writes taskList items to the file using the Task's toFileFormat()
         FileWriter fileWriter = new FileWriter(updatedFile);
         for (int i = 0; i < numberOfTasks; i += 1) {
             Task t = taskList.getTask(i);

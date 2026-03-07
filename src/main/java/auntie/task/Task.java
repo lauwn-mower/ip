@@ -1,12 +1,20 @@
 package auntie.task;
 
-public class Task {
+/**
+ * Represents an abstract task in the Auntie application.
+ * Defines the shared properties (description, completion status, type)
+ * and the contract for formatting tasks for UI and storage.
+ */
+public abstract class Task {
 
-    // Task object comprises its description and isDone status
     protected String description;
     protected boolean isDone;
     protected String type;
 
+    /**
+     * Initializes a task with a description and sets completion to false.
+     * @param description The text describing the task.
+     */
     public Task(String description){
         this.description = description;
         this.isDone = false;
@@ -28,19 +36,29 @@ public class Task {
         return (isDone() ? "X" : " ");
     }
 
+    /**
+     * Returns the task type and status icons formatted for UI display.
+     * Format: [Type][Status] (e.g., "[T][X]").
+     * @return A string containing the categorized icons.
+     */
     public String toStringTaskIcons(){
         return "[" + this.type + "][" + getStatusIcon() + "] ";
     }
 
+    /**
+     * Returns the formatted string representation for the user-facing list.
+     * Format: [Type][Status] description (e.g., "[T][ ] buy kopi").
+     * @return A string combining status icons and the task description.
+     */
     public String toStringListFormat(){
         return toStringTaskIcons() + this.description;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    // Common method to convert string to suitable file format
+    /**
+     * Returns the string representation formatted for text file storage.
+     * Format: Type | Status | Description (e.g., "T | 1 | buy kopi").
+     * @return A pipe-delimited string representing the task.
+     */
     public String toFileFormat() {
         String status = isDone ? "1" : "0";
         return "? | " + status + " | " + description;
