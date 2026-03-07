@@ -86,7 +86,6 @@ public class Ui {
     }
 
     public void printLine() {
-        System.out.println(" ");
         System.out.println("-*-");
         System.out.println(" ");
     }
