@@ -18,7 +18,7 @@ public class TaskList {
 
     /**
      * Constructs a task list using an existing collection of tasks.
-     * * @param tasks The initial list of tasks retrieved from storage.
+     * @param tasks The initial list of tasks retrieved from storage.
      */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
