@@ -39,7 +39,7 @@ public class Ui {
     }
 
     // This method prints the Chatbot's self-introduction and purpose
-    public static void greetUser() {
+    public static void printGreeting() {
         Ui.printLine();
         System.out.println("Hallo! Can call me:");
         System.out.println(LOGO);
