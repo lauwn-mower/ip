@@ -7,7 +7,15 @@ import auntie.task.Task;
 import auntie.task.TaskList;
 
 public class Ui {
-    
+
+    public static final String LOGO =
+            "                      _   _      \n"
+            + "     /\\              | | (_)     \n"
+            + "    /  \\  _   _ _ __ | |_ _  ___ \n"
+            + "   / /\\ \\| | | | '_ \\| __| |/ _ \\\n"
+            + "  / ____ \\ |_| | | | | |_| |  __/\n"
+            + " /_/    \\_\\____|_| |_|\\__|_|\\___|\n";
+
     // Create a Scanner once and use across methods instead of creating a scanner for each method
     private final Scanner scanner;
 
@@ -32,43 +40,11 @@ public class Ui {
 
     // This method prints the Chatbot's self-introduction and purpose
     public static void greetUser() {
-        String logo = 	      "                      _   _      \n"
-                + "     /\\              | | (_)     \n"
-                + "    /  \\  _   _ _ __ | |_ _  ___ \n"
-                + "   / /\\ \\| | | | '_ \\| __| |/ _ \\\n"
-                + "  / ____ \\ |_| | | | | |_| |  __/\n"
-                + " /_/    \\_\\____|_| |_|\\__|_|\\___|\n";
-
         Ui.printLine();
         System.out.println("Hallo! Can call me:");
-        System.out.println(logo);
+        System.out.println(LOGO);
         System.out.println("Your life so rabak, Auntie help you keep track ok.");
         Ui.printLine();
-    }
-
-    public static void printHelp() {
-        System.out.println("Mai kanchiong, Auntie will help you.");
-        System.out.println("Here is what Auntie can do for you:");
-        System.out.println("");
-        System.out.println("**VIEWING TASKS**");
-        System.out.println("  list           - See ur whole task list.");
-        System.out.println("  find <keyword> - Show u the tasks containing ur keyword.");
-        System.out.println("");
-        System.out.println("**ADDING TASKS**");
-        System.out.println("  todo <desc>                         - General task to do.");
-        System.out.println("  deadline <desc> by <time>           - Task with a due date.");
-        System.out.println("  event <desc> from <start> to <end>  - Task with a duration.");
-        System.out.println("");
-        System.out.println("**MANAGING TASKS**");
-        System.out.println("  mark <index>   - Finished liao? Mark the task. Shiok hor.");
-        System.out.println("  unmark <index> - Not finished yet but you cockeye and mark as done? Uncheck task.");
-        System.out.println("  delete <index> - Clear task from ur list! One down lio.");
-        System.out.println("");
-        System.out.println("**OTHERS**");
-        System.out.println("  bye           - Close the program (Auntie will save ur data!).");
-        System.out.println("  help          - See this message again. Buay paiseh hor.");
-        System.out.println("--------------------------------------------------");
-        System.out.println("Just type what u need and Auntie will help u!");
     }
 
     public void printError(String errorMessage) {
@@ -112,6 +88,20 @@ public class Ui {
         }
     }
 
+    /*
+     * Section: Helper functions
+     */
+    private static void printIndexedListItem(TaskList tasks, int i) {
+        System.out.println((i + 1) + ". " + tasks.getTask(i).toStringListFormat());
+    }
+
+    public static void printLine() {
+        System.out.println("-*-");
+    }
+
+    /*
+     * Section: Longer functions to explain and help with unfamiliar user's experience
+     */
     public void printFormatHelp() {
         System.out.println("Your format wrong leh. Listen properly ah:");
         System.out.println("1. **todo** <description>");
@@ -123,14 +113,28 @@ public class Ui {
         System.out.println("\nUnderstand onot? Try again");
     }
 
-    /*
-     * Section: Helper functions
-     */
-    private static void printIndexedListItem(TaskList tasks, int i) {
-        System.out.println((i + 1) + ". " + tasks.getTask(i).toStringListFormat());
-    }
-
-    public static void printLine() {
-        System.out.println("-*-");
+    public static void printHelp() {
+        System.out.println("Mai kanchiong, Auntie will help you.");
+        System.out.println("Here is what Auntie can do for you:");
+        System.out.println("");
+        System.out.println("**VIEWING TASKS**");
+        System.out.println("  list           - See ur whole task list.");
+        System.out.println("  find <keyword> - Show u the tasks containing ur keyword.");
+        System.out.println("");
+        System.out.println("**ADDING TASKS**");
+        System.out.println("  todo <desc>                         - General task to do.");
+        System.out.println("  deadline <desc> by <time>           - Task with a due date.");
+        System.out.println("  event <desc> from <start> to <end>  - Task with a duration.");
+        System.out.println("");
+        System.out.println("**MANAGING TASKS**");
+        System.out.println("  mark <index>   - Finished liao? Mark the task. Shiok hor.");
+        System.out.println("  unmark <index> - Not finished yet but you cockeye and mark as done? Uncheck task.");
+        System.out.println("  delete <index> - Clear task from ur list! One down lio.");
+        System.out.println("");
+        System.out.println("**OTHERS**");
+        System.out.println("  bye           - Close the program (Auntie will save ur data!).");
+        System.out.println("  help          - See this message again. Buay paiseh hor.");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Just type what u need and Auntie will help u!");
     }
 }

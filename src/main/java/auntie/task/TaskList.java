@@ -19,7 +19,6 @@ public class TaskList {
         this.tasks = tasks;
     }
 
-
     /*
      * Section: Methods dealing with editing task list
      */

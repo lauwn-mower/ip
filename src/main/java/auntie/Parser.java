@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Parser {
 
-    // Commands, taken from auntietasker
+    // Commands
     public static final String CMD_LIST = "list";
     public static final String CMD_EXIT = "bye";
     public static final String CMD_MARK = "mark";
@@ -24,6 +24,7 @@ public class Parser {
     public static final String CMD_FIND = "find";
     public static final String CMD_HELP = "help";
 
+    // This method takes in inputs and decodes what to execute
     public boolean parse(String fullCommand, TaskList tasks, Ui ui, Storage storage) {
         // Split the input into command and description
         // Command is the first word of the input, else taskDescription
@@ -90,7 +91,7 @@ public class Parser {
 
 
     /*
-     * Section: handleTask functions to decode task details and add to taskList
+     * Section: handleTask functions to analyse task details and add to taskList
      */
     private void handleTodo(String taskDesc, TaskList tasks, Ui ui, Storage storage) throws IOException {
         notEmptyDescription(taskDesc);
