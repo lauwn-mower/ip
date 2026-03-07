@@ -107,7 +107,7 @@ public class Parser {
         // If "by " is missing or at the very start (no description)
         boolean wrongFormat = (byIndex <= 0);
         if (wrongFormat) {
-            ui.printError("Aiyo, you forgot the 'by'! How I know when is the deadline?");
+            ui.printError("Aiyo, u forgot the 'by'! How I know when the deadline?");
             ui.printFormatHelp();
             return;
         }
@@ -117,7 +117,7 @@ public class Parser {
         String by = taskDesc.substring(byIndex + 3).trim();
 
         if (deadlineName.isEmpty() || by.isEmpty()) {
-            ui.printError("Eh, you cannot leave the task or the time empty lah.");
+            ui.printError("Eh, cannot leave the task or the time empty lah.");
             return;
         }
 

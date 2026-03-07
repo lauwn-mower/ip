@@ -15,7 +15,7 @@ public class Auntie {
         ui = new Ui();
         storage = new Storage(filePath);
 
-        Ui.greetUser();
+        Ui.printGreeting();
 
         // File loading process:
         // Try the block that loads assuming existing user, and Catch the error that occurs if user is new
