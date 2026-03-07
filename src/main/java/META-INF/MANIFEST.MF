@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: auntie.task.TaskManager
+Main-Class: auntie.Auntie
+Class-Path: src/main/java/auntie/Auntie.java
 

@@ -45,6 +45,7 @@ public class Ui {
             System.out.println("If u unsure what to do, can ask for 'help' hor");
         }
         System.out.println("\nQuick, what u wan do?");
+        printLine();
     }
 
     /**
@@ -60,10 +61,10 @@ public class Ui {
 
     /**
      * Displays an error message to the user.
-     * @param errorMessage The error message to be displayed.
+     * @param errorMessage The message to clarify the error.
      */
     public void printError(String errorMessage) {
-        System.out.println("Aiyo! " + errorMessage);
+        System.out.println(errorMessage);
     }
 
     /**
