@@ -1,5 +1,6 @@
 package auntie.task;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ui {
@@ -52,6 +53,17 @@ public class Ui {
         System.out.println("Aiyooo, look at all these tasks. Better get ur bum moving.");
         for (int i = 0; i < tasks.getSize(); i++) {
             printIndexedListItem(tasks, i);
+        }
+    }
+
+    public void printFoundTasks(ArrayList<Task> results) {
+        if (results.isEmpty()) {
+            System.out.println("I look until my eyes pain also cannot find leh");
+            return;
+        }
+        System.out.println("Okok, I find for you ah:");
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println((i + 1) + "." + results.get(i).toStringListFormat());
         }
     }
 

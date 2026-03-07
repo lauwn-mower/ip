@@ -60,6 +60,7 @@ public class Parser {
 
             case CMD_FIND:
                 ArrayList<Task> foundTasks = tasks.findTasks(taskDescription);
+                ui.printFoundTasks(foundTasks);
                 break;
 
             default:
