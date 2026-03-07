@@ -53,13 +53,14 @@ public class Auntie {
         while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
-                ui.printLine();
-
+                Ui.printLine();
                 isExit = parser.parse(fullCommand, tasks, ui, storage);
             } catch (Exception e) {
-                ui.printError(e.getMessage());
+                ui.printError("Aiyo, Auntie brain freeze liao: " + e.getMessage());
             } finally {
-                ui.printLine();
+                if (!isExit) {
+                    Ui.printLine();
+                }
             }
         }
     }
