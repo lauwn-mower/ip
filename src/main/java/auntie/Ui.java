@@ -33,9 +33,9 @@ public class Ui {
             System.out.println("Eh Auntie remember u! Come, I bring out ur task list for u.");
         } else {
             System.out.println("Oh first time meeting issit. I go find a notebook for you first ah.");
-            System.out.println("If you unsure what do do, can ask for 'help' hor");
+            System.out.println("If u unsure what to do, can ask for 'help' hor");
         }
-        System.out.println("\nQuick, what you want do?");
+        System.out.println("\nQuick, what u wan do?");
     }
 
     // This method prints the Chatbot's self-introduction and purpose
