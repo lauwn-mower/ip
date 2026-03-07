@@ -1,4 +1,4 @@
-package auntie.task;
+package auntie;
 
 import auntie.startup.Storage;
 import auntie.task.Deadline;
@@ -22,6 +22,7 @@ public class Parser {
     public static final String CMD_EVENT = "event";
     public static final String CMD_DELETE = "delete";
     public static final String CMD_FIND = "find";
+    public static final String CMD_HELP = "help";
 
     public boolean parse(String fullCommand, TaskList tasks, Ui ui, Storage storage) {
         // Split the input into command and description
@@ -67,6 +68,10 @@ public class Parser {
             case CMD_FIND:
                 ArrayList<Task> foundTasks = tasks.findTasks(taskDescription);
                 ui.printFoundTasks(foundTasks);
+                break;
+
+            case CMD_HELP:
+                Ui.printHelp();
                 break;
 
             default:
