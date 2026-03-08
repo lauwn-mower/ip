@@ -5,9 +5,10 @@ Auntie is a CLI (Command Line Interface) task manager (spiced with a tinge of Si
 ---
 
 ## Quick Start
-1. Create a new folder in which you would like to store the program executable.
-2. Download the latest `AuntieBot.jar` from the [Releases](https://github.com/lauwn-mower/ip/releases) page in your chosen folder.
-3. Open a command window (Terminal/Command Prompt) in that folder and run the command:
+1. Ensure you have Java 17.0 installed on your device.
+2. Create a new folder in which you would like to store the program executable.
+3. Download the latest `AuntieBot.jar` from the [Releases](https://github.com/lauwn-mower/ip/releases) page in your chosen folder.
+4. Open a command window (Terminal/Command Prompt) in that folder and run the command:
    ```text
    java -jar AuntieBot.jar
    ```
